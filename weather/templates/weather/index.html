@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3">
+    <div class="container">
+        <!-- Temperature Unit Switch in the Top Right -->
+        <div class="d-flex justify-content-end mb-3">
+            <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=imperial" class="btn btn-link {% if unit == 'imperial' %}fw-bold{% endif %}">Fahrenheit</a>
+            <span>|</span>
+            <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=metric" class="btn btn-link {% if unit == 'metric' %}fw-bold{% endif %}">Celsius</a>
+        </div>
+
+        <h2>Weather</h2>
+        <hr />
+        <form method="GET" class="mb-4">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="input-group">
+                        <div class="input-group-text">Zip Code</div>
+                        <input type="text" class="form-control" name="zip_code" placeholder="Enter zip code" value="{{ zip_code }}">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn bg-dark text-white" type="submit">Get Weather</button>
+                </div>
+                <!-- Preserve unit selection -->
+                <input type="hidden" name="unit" value="{{ unit }}">
+            </div>
+        </form>
+
+        {% if error_message %}
+            <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+
+        {% if weather_data %}
+            <!-- Embed API call timestamp and timezone offset as data attributes -->
+            <div class="card p-3" id="weather-data"
+                 data-last-checked="{{ weather_data.dt }}"
+                 data-timezone-offset="{{ weather_data.timezone }}">
+                <h4>Weather for {{ weather_data.name }}, {{ weather_data.sys.country }}</h4>
+                <p>Local Time: <span id="local-time"></span></p>
+                <p>Temperature: {{ weather_data.main.temp }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+                <p>Feels Like: {{ weather_data.main.feels_like }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+                <p>Humidity: {{ weather_data.main.humidity }}%</p>
+                <p>High: {{ weather_data.main.temp_max }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+                <p>Low: {{ weather_data.main.temp_min }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+                <p>Condition: {{ weather_data.weather.0.description }}</p>
+                <p>Last checked: <span id="last-checked"></span> minutes ago</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- JavaScript for dynamic time and last checked updates -->
+<script>
+  // Only run if weather data is present on the page
+  var weatherElem = document.getElementById("weather-data");
+  if (weatherElem) {
+    // Retrieve the timestamp (in seconds) and convert to milliseconds
+    var lastCheckedTimestamp = parseInt(weatherElem.getAttribute("data-last-checked")) * 1000;
+    // Retrieve the timezone offset (in seconds) and convert to milliseconds
+    var timezoneOffsetSeconds = parseInt(weatherElem.getAttribute("data-timezone-offset"));
+    var timezoneOffsetMs = timezoneOffsetSeconds * 1000;
+
+    // Function to update the local date and time display every second
+    function updateLocalTime() {
+      // Get current UTC time in milliseconds
+      var now = Date.now();
+      // Calculate the current time in the weather location by adding the timezone offset
+      var localTime = new Date(now + timezoneOffsetMs);
+
+      // Format date and time as YYYY-MM-DD HH:MM:SS
+      var year = localTime.getUTCFullYear();
+      var month = (localTime.getUTCMonth() + 1).toString().padStart(2, '0');
+      var day = localTime.getUTCDate().toString().padStart(2, '0');
+      var hours = localTime.getUTCHours().toString().padStart(2, '0');
+      var minutes = localTime.getUTCMinutes().toString().padStart(2, '0');
+      var seconds = localTime.getUTCSeconds().toString().padStart(2, '0');
+
+      var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+      document.getElementById("local-time").textContent = formattedDateTime;
+    }
+
+    // Function to update the "Last checked" display (in minutes)
+    function updateLastChecked() {
+      var now = Date.now();
+      var diffMinutes = Math.floor((now - lastCheckedTimestamp) / 60000);
+      document.getElementById("last-checked").textContent = diffMinutes;
+    }
+
+    // Initial updates and then update continuously
+    updateLocalTime();
+    setInterval(updateLocalTime, 1000); // every second
+
+    updateLastChecked();
+    setInterval(updateLastChecked, 60000); // every minute
+
+    // Automatically refresh the weather data (reload the page) every 30 minutes
+    setTimeout(function(){
+      location.reload();
+    }, 1800000); // 1,800,000 ms = 30 minutes
+  }
+</script>
+
+{% endblock content %}
