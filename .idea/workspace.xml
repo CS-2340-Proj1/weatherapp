@@ -6,59 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="04bbf044-c079-47e0-b170-a43e5fad9066" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/favorites/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/favorites/migrations/0002_item.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/favorites/migrations/0003_remove_order_user_favoritecity_delete_item_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/favorites/migrations/0004_favoritezip_delete_favoritecity.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/favorites/migrations/0005_alter_favoritezip_options_favoritezip_city_name.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/Inception.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/Inception_03R90il.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/Inception_ItNOWzj.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/avatar.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/avatar_v0hrrgk.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/barbe.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/blackpanther.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/crazyrichasians.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/creed.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/creed2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/dune.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/dune2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/mammamia.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/mbfgw.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/ponyo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/princessmononoke.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/sailormoon.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/spiritedaway.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/totoro.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/movie_images/wakandaforever.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moviereviews/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/migrations/0002_review.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/templates/movies/edit_review.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/templates/movies/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/templates/movies/show.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weatherapp/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/weatherapp/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/favorites/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/favorites/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/templates/weather/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/weather/templates/weather/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weather/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/weather/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weatherapp/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/weatherapp/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weatherapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/weatherapp/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

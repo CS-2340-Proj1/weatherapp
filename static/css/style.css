@@ -52,3 +52,6 @@
     padding: 10px;
   }
 }
+#map{
+    height:400px;        /* or any height you like */
+}

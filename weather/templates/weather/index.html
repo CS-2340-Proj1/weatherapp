@@ -1,116 +1,159 @@
 {% extends 'base.html' %}
+
+{# ──────────────────────────────────────────────────────────────── #}
 {% block content %}
 <div class="p-3">
-    <div class="container">
-        <!-- Temperature Unit Switch in the Top Right -->
-        <div class="d-flex justify-content-end mb-3">
-            <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=imperial" class="btn btn-link {% if unit == 'imperial' %}fw-bold{% endif %}">Fahrenheit</a>
-            <span>|</span>
-            <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=metric" class="btn btn-link {% if unit == 'metric' %}fw-bold{% endif %}">Celsius</a>
-        </div>
+  <div class="container">
 
-        <h2>Weather</h2>
-        <hr />
-        <form method="GET" class="mb-4">
-            <div class="row">
-                <div class="col-auto">
-                    <div class="input-group">
-                        <div class="input-group-text">Zip Code</div>
-                        <input type="text" class="form-control" name="zip_code" placeholder="Enter zip code" value="{{ zip_code }}">
-                    </div>
-                </div>
-                <div class="col-auto">
-                    <button class="btn bg-dark text-white" type="submit">Get Weather</button>
-                </div>
-                <!-- Preserve unit selection -->
-                <input type="hidden" name="unit" value="{{ unit }}">
-            </div>
-        </form>
-
-        {% if error_message %}
-            <div class="alert alert-danger">{{ error_message }}</div>
-        {% endif %}
-
-        {% if weather_data %}
-            <!-- Embed API call timestamp and timezone offset as data attributes -->
-            <div class="card p-3" id="weather-data"
-                 data-last-checked="{{ weather_data.dt }}"
-                 data-timezone-offset="{{ weather_data.timezone }}">
-                <h4>Weather for {{ weather_data.name }}, {{ weather_data.sys.country }}</h4>
-                <p>Local Time: <span id="local-time"></span></p>
-                <p>Temperature: {{ weather_data.main.temp }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
-                <p>Feels Like: {{ weather_data.main.feels_like }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
-                <p>Humidity: {{ weather_data.main.humidity }}%</p>
-                <p>High: {{ weather_data.main.temp_max }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
-                <p>Low: {{ weather_data.main.temp_min }}°{% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
-                <p>Condition: {{ weather_data.weather.0.description }}</p>
-                <p>Last checked: <span id="last-checked"></span> minutes ago</p>
-            </div>
-        {% endif %}
+    <!-- ── unit switch ─────────────────────────────────────────── -->
+    <div class="d-flex justify-content-end mb-3">
+      <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=imperial"
+         class="btn btn-link {% if unit == 'imperial' %}fw-bold{% endif %}">Fahrenheit</a>
+      <span>|</span>
+      <a href="?{% if zip_code %}zip_code={{ zip_code }}&{% endif %}unit=metric"
+         class="btn btn-link {% if unit == 'metric' %}fw-bold{% endif %}">Celsius</a>
     </div>
-</div>
 
-<!-- JavaScript for dynamic time and last checked updates -->
-<script>
-  // Only run if weather data is present on the page
-  var weatherElem = document.getElementById("weather-data");
-  if (weatherElem) {
-    // Retrieve the timestamp (in seconds) and convert to milliseconds
-    var lastCheckedTimestamp = parseInt(weatherElem.getAttribute("data-last-checked")) * 1000;
-    // Retrieve the timezone offset (in seconds) and convert to milliseconds
-    var timezoneOffsetSeconds = parseInt(weatherElem.getAttribute("data-timezone-offset"));
-    var timezoneOffsetMs = timezoneOffsetSeconds * 1000;
+    <h2>Weather</h2>
+    <hr />
 
-    // Function to update the local date and time display every second
-    function updateLocalTime() {
-      // Get current UTC time in milliseconds
-      var now = Date.now();
-      // Calculate the current time in the weather location by adding the timezone offset
-      var localTime = new Date(now + timezoneOffsetMs);
+    <!-- ── ZIP search form ─────────────────────────────────────── -->
+    <form method="GET" class="mb-4">
+      <div class="row">
+        <div class="col-auto">
+          <div class="input-group">
+            <div class="input-group-text">Zip Code</div>
+            <input name="zip_code" class="form-control" placeholder="Enter zip code"
+                   value="{{ zip_code }}">
+          </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn bg-dark text-white">Get Weather</button>
+        </div>
+        <input type="hidden" name="unit" value="{{ unit }}">
+      </div>
+    </form>
 
-      // Format date and time as YYYY-MM-DD HH:MM:SS
-      var year = localTime.getUTCFullYear();
-      var month = (localTime.getUTCMonth() + 1).toString().padStart(2, '0');
-      var day = localTime.getUTCDate().toString().padStart(2, '0');
-      var hours = localTime.getUTCHours().toString().padStart(2, '0');
-      var minutes = localTime.getUTCMinutes().toString().padStart(2, '0');
-      var seconds = localTime.getUTCSeconds().toString().padStart(2, '0');
+    {% if error_message %}
+      <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
 
-      var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    {% if weather_data %}
+      <!-- ── weather card ───────────────────────────────────────── -->
+      <div id="weather-data" class="card p-3"
+           data-last-checked="{{ weather_data.dt }}"
+           data-timezone-offset="{{ weather_data.timezone }}">
+        <h4>Weather for {{ weather_data.name }}, {{ weather_data.sys.country }}</h4>
+        <p>Local Time: <span id="local-time"></span></p>
+        <p>Temperature: {{ weather_data.main.temp }}°
+           {% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+        <p>Feels Like: {{ weather_data.main.feels_like }}°
+           {% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+        <p>Humidity: {{ weather_data.main.humidity }}%</p>
+        <p>High: {{ weather_data.main.temp_max }}°
+           {% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+        <p>Low: {{ weather_data.main.temp_min }}°
+           {% if unit == 'imperial' %}F{% else %}C{% endif %}</p>
+        <p>Condition: {{ weather_data.weather.0.description }}</p>
+        <p>Last checked: <span id="last-checked"></span> minutes ago</p>
+      </div>
+    {% endif %}
 
-      document.getElementById("local-time").textContent = formattedDateTime;
-    }
-
-    // Function to update the "Last checked" display (in minutes)
-    function updateLastChecked() {
-      var now = Date.now();
-      var diffMinutes = Math.floor((now - lastCheckedTimestamp) / 60000);
-      document.getElementById("last-checked").textContent = diffMinutes;
-    }
-
-    // Initial updates and then update continuously
-    updateLocalTime();
-    setInterval(updateLocalTime, 1000); // every second
-
-    updateLastChecked();
-    setInterval(updateLastChecked, 60000); // every minute
-
-    // Automatically refresh the weather data (reload the page) every 30 minutes
-    setTimeout(function(){
-      location.reload();
-    }, 1800000); // 1,800,000 ms = 30 minutes
-  }
-</script>
-{% if weather_data and user.is_authenticated %}
-    <form action="{% url 'favorites.add' %}" method="post" class="mt-3">
+    {% if weather_data and user.is_authenticated %}
+      <form action="{% url 'favorites.add' %}" method="post" class="mt-3">
         {% csrf_token %}
-        <input type="hidden" name="zip_code" value="{{ zip_code }}">
+        <input type="hidden" name="zip_code"  value="{{ zip_code }}">
         <input type="hidden" name="city_name" value="{{ weather_data.name }}">
         <button class="btn btn-outline-primary">
-            <i class="fa fa-bookmark"></i> Save this ZIP
+          <i class="fa fa-bookmark"></i> Save this ZIP
         </button>
-    </form>
-{% elif weather_data %}
-    <p class="text-muted">Log in to save this location.</p>
-{% endif %}
+      </form>
+    {% elif weather_data %}
+      <p class="text-muted">Log in to save this location.</p>
+    {% endif %}
+
+    {% if lat and lon %}
+      <!-- map container -->
+      <div id="map" class="mt-4" style="height:400px;"></div>
+    {% endif %}
+
+  </div>  {# /container #}
+</div>
 {% endblock content %}
+
+{# ──────────────────────────────────────────────────────────────── #}
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <!-- dynamic time / refresh script -->
+  <script>
+  (function () {
+      const w = document.getElementById('weather-data');
+      if (!w) return;
+
+      const lastChecked = +w.dataset.lastChecked * 1000;
+      const tzOffset    = +w.dataset.timezoneOffset * 1000;
+
+      function pad(n){return n.toString().padStart(2,'0');}
+
+      function updateLocal() {
+          const now = new Date(Date.now() + tzOffset);
+          const stamp = `${now.getUTCFullYear()}-${pad(now.getUTCMonth()+1)}-${pad(now.getUTCDate())} `
+                      + `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+          document.getElementById('local-time').textContent = stamp;
+      }
+      function updateAgo() {
+          const ago = Math.floor((Date.now() - lastChecked)/60000);
+          document.getElementById('last-checked').textContent = ago;
+      }
+      updateLocal(); updateAgo();
+      setInterval(updateLocal, 1000);
+      setInterval(updateAgo,   60000);
+      setTimeout(()=>location.reload(), 1800000);
+  })();
+  </script>
+
+  {% if lat and lon %}
+  <!-- Leaflet map script -->
+  <script>
+  (function () {
+      const lat = {{ lat|floatformat:6 }};
+      const lon = {{ lon|floatformat:6 }};
+      const owm = "{{ owm_key }}";
+
+      const map = L.map('map',{center:[lat,lon],zoom:8});
+
+      const demoPts = [
+          [lat, lon, 0.9],                      // current point
+          [lat + 0.5, lon + 0.4, 0.7],
+          [lat - 0.6, lon - 0.3, 0.6],
+          [lat + 0.2, lon - 0.8, 0.4]
+      ];
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          maxZoom:19, attribution:'&copy; OpenStreetMap'
+      }).addTo(map);
+
+      const temp = L.tileLayer(
+          `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${owm}`,
+          {opacity:0.8, attribution:'Weather © OpenWeatherMap'}
+      );
+      const clouds = L.tileLayer(
+          `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${owm}`,
+          {opacity:0.6, attribution:'Weather © OpenWeatherMap'}
+      );
+      const heat = L.heatLayer(demoPts, {
+          radius: 125,
+          maxZoom: 11,
+          gradient: {0.4:'#2c7bb6',0.6:'#abd9e9',0.8:'#fdae61',1:'#d7191c'}
+      });
+      temp.addTo(map);
+
+      L.control.layers(null, {
+          'Temperature': temp,
+          'Clouds':       clouds,
+          'Heat-map':     heat
+      }, {collapsed:false}).addTo(map);
+  })();
+  </script>
+  {% endif %}
+{% endblock extra_js %}

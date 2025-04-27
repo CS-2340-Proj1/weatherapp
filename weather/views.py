@@ -17,6 +17,8 @@ def index(request):
         response = requests.get(url)
         if response.status_code == 200:
             weather_data = response.json()
+            lat = weather_data['coord']['lat']
+            lon = weather_data['coord']['lon']
             # The API returns 'dt' (timestamp) and 'timezone' (offset in seconds from UTC)
             # We'll pass these along for our dynamic displays.
         else:
@@ -27,5 +29,8 @@ def index(request):
         'error_message': error_message,
         'unit': unit,
         'zip_code': zip_code,
+        'lat': weather_data['coord']['lat'] if weather_data else None,
+        'lon': weather_data['coord']['lon'] if weather_data else None,
+        'owm_key': settings.WEATHER_API_KEY,  # reuse same key
     }
     return render(request, 'weather/index.html', context)
