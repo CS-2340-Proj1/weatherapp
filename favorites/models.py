@@ -1,21 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
-from movies.models import Movie
-class Order(models.Model):
-    id = models.AutoField(primary_key=True)
-    total = models.IntegerField()
-    date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,
-        on_delete=models.CASCADE)
-    def __str__(self):
-        return str(self.id) + ' - ' + self.user.username
 
-class Item(models.Model):
-    id = models.AutoField(primary_key=True)
-    price = models.IntegerField()
-    quantity = models.IntegerField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+class FavoriteZip(models.Model):
+    """Stores one ZIP code per user; duplicates not allowed."""
+    user      = models.ForeignKey(User, on_delete=models.CASCADE,
+                                  related_name='favorite_zips')
+    zip_code  = models.CharField(max_length=15)
+    city_name = models.CharField(
+        max_length=120,
+        default='',  # <─ satisfies existing rows
+        blank=True  # allows empty string in admin/forms
+    )
+    class Meta:
+        unique_together = ('user', 'zip_code')
+        ordering = ['city_name']
 
     def __str__(self):
-        return str(self.id) + ' - ' + self.movie.name
+        return f'{self.zip_code} – {self.user}'

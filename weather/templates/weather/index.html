@@ -101,5 +101,16 @@
     }, 1800000); // 1,800,000 ms = 30 minutes
   }
 </script>
-
+{% if weather_data and user.is_authenticated %}
+    <form action="{% url 'favorites.add' %}" method="post" class="mt-3">
+        {% csrf_token %}
+        <input type="hidden" name="zip_code" value="{{ zip_code }}">
+        <input type="hidden" name="city_name" value="{{ weather_data.name }}">
+        <button class="btn btn-outline-primary">
+            <i class="fa fa-bookmark"></i> Save this ZIP
+        </button>
+    </form>
+{% elif weather_data %}
+    <p class="text-muted">Log in to save this location.</p>
+{% endif %}
 {% endblock content %}
