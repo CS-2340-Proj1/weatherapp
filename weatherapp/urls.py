@@ -22,7 +22,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('movies/', include('movies.urls')),
     path('weather/', include('weather.urls')),
     path('accounts/', include('accounts.urls')),
     path('favorites/', include('favorites.urls')),
